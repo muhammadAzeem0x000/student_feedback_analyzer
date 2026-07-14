@@ -71,7 +71,7 @@ Server-only:
 - `TURNSTILE_SECRET_KEY`
 - `RATE_LIMIT_SECRET`
 - `DEMO_INSTRUCTOR_EMAIL` (defaults to `instructor@example.com`)
-- `DEMO_INSTRUCTOR_PASSWORD` (used by the seed script and server-only test login)
+- `DEMO_INSTRUCTOR_PASSWORD` (used only by the account seed script)
 - `DEMO_ADMIN_PASSWORD` (used only by the account seed script)
 
 Never expose or prefix server-only values with `NEXT_PUBLIC_`.
@@ -113,7 +113,7 @@ Deploy to Vercel or another Next.js-compatible Node host. Add all environment va
 
 ## Demo accounts
 
-`npm run seed:users` creates `instructor@example.com` and `admin@example.com` using passwords supplied only through `.env.local`. No passwords are committed. When `DEMO_INSTRUCTOR_PASSWORD` is configured in the deployment environment, the login page also offers a one-click test-instructor session without exposing that password to the browser. Analyses created by this shared demo account use the deterministic demo provider so public visitors cannot spend DeepSeek credits. Run `supabase/seed.sql` afterward for the Software Testing demo course and five default questions.
+`npm run seed:users` creates `instructor@example.com` and `admin@example.com` using passwords supplied only through `.env.local`. No passwords are committed. The login page offers a one-click test-instructor session by creating and immediately exchanging a server-only Supabase magic link; it does not expose or require the demo password at runtime. Analyses created by this shared demo account use the deterministic demo provider so public visitors cannot spend DeepSeek credits. Run `supabase/seed.sql` afterward for the Software Testing demo course and five default questions.
 
 ## Privacy limitations
 
