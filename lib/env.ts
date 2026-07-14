@@ -12,6 +12,8 @@ const serverEnvSchema = z.object({
   NEXT_PUBLIC_APP_URL: z.string().url().default("http://localhost:3000"),
   TURNSTILE_SECRET_KEY: z.string().optional(),
   RATE_LIMIT_SECRET: z.string().optional(),
+  DEMO_INSTRUCTOR_EMAIL: z.string().email().default("instructor@example.com"),
+  DEMO_INSTRUCTOR_PASSWORD: z.string().min(8).optional(),
 });
 
 export const env = serverEnvSchema.parse({
@@ -25,6 +27,8 @@ export const env = serverEnvSchema.parse({
   NEXT_PUBLIC_APP_URL: process.env.NEXT_PUBLIC_APP_URL,
   TURNSTILE_SECRET_KEY: process.env.TURNSTILE_SECRET_KEY || undefined,
   RATE_LIMIT_SECRET: process.env.RATE_LIMIT_SECRET || undefined,
+  DEMO_INSTRUCTOR_EMAIL: process.env.DEMO_INSTRUCTOR_EMAIL,
+  DEMO_INSTRUCTOR_PASSWORD: process.env.DEMO_INSTRUCTOR_PASSWORD || undefined,
 });
 
 export function requireServerSecret(name: "SUPABASE_SERVICE_ROLE_KEY" | "DEEPSEEK_API_KEY") {

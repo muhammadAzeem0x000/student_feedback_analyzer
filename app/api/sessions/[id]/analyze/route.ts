@@ -12,7 +12,7 @@ export const maxDuration = 120;
 export async function POST(_: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
     const { id } = await params;
-    const [session, { profile }] = await Promise.all([requireOwnedSession(id), requireUser()]);
+    const [session, { profile, user }] = await Promise.all([requireOwnedSession(id), requireUser()]);
     if (session.status !== "closed" && session.status !== "analyzed") return NextResponse.json({ error: "Close the session before generating analysis." }, { status: 409 });
     const supabase = await createClient();
     const [{ count }, questionsResult, reflectionResult, statsResult, responsesResult] = await Promise.all([
@@ -39,7 +39,9 @@ export async function POST(_: Request, { params }: { params: Promise<{ id: strin
       materialText = await extractPdfText(await pdf.arrayBuffer());
     }
 
-    const provider = env.AI_PROVIDER_MODE === "mock" ? new MockAIProvider() : new DeepSeekProvider();
+    const isDemoInstructor = user.email?.toLowerCase() === env.DEMO_INSTRUCTOR_EMAIL.toLowerCase();
+    const useMockProvider = env.AI_PROVIDER_MODE === "mock" || isDemoInstructor;
+    const provider = useMockProvider ? new MockAIProvider() : new DeepSeekProvider();
     const analysis = await provider.analyze({
       course: { name: session.courses?.name ?? "Course", code: session.courses?.code ?? "" },
       session: { title: session.title, description: session.description },
@@ -52,7 +54,7 @@ export async function POST(_: Request, { params }: { params: Promise<{ id: strin
     });
 
     const { data: saved, error: saveError } = await supabase.from("ai_analyses").insert({
-      session_id: id, instructor_id: profile.id, model: env.DEEPSEEK_MODEL,
+      session_id: id, instructor_id: profile.id, model: useMockProvider ? "demo-mock" : env.DEEPSEEK_MODEL,
       prompt_version: "anonymous-course-feedback-v1", response_count: responseCount, result: analysis,
     }).select("id").single();
     if (saveError) throw saveError;

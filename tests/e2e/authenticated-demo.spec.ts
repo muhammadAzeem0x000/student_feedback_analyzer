@@ -5,9 +5,7 @@ test.skip(!password, "Demo instructor credentials are not configured.");
 
 test("instructor can sign in and view the seeded feedback workspace", async ({ page }) => {
   await page.goto("/login");
-  await page.getByLabel("Email address").fill("instructor@example.com");
-  await page.getByLabel("Password").fill(password!);
-  await page.getByRole("button", { name: "Sign in securely" }).click();
+  await page.getByRole("button", { name: "Login as test instructor" }).click();
   await expect(page).toHaveURL(/\/dashboard/, { timeout: 15_000 });
   await expect(page.getByText("Unit Testing and Test Automation")).toBeVisible();
 });
