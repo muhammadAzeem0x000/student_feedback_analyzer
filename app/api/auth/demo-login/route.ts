@@ -1,16 +1,11 @@
 import { NextResponse } from "next/server";
 import { env } from "@/lib/env";
 import { apiError } from "@/lib/http";
-import { consumeDemoLoginRateLimit } from "@/lib/security/rate-limit";
 import { createAdminClient } from "@/lib/supabase/admin";
 import { createClient } from "@/lib/supabase/server";
 
 export async function POST() {
   try {
-    if (!await consumeDemoLoginRateLimit()) {
-      return NextResponse.json({ error: "Too many demo sign-ins. Please wait a few minutes and try again." }, { status: 429 });
-    }
-
     const { data: link, error: linkError } = await createAdminClient().auth.admin.generateLink({
       type: "magiclink",
       email: env.DEMO_INSTRUCTOR_EMAIL,

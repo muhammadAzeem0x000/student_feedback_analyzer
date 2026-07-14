@@ -24,7 +24,3 @@ async function consumeRateLimit(scope: string, maximumRequests: number) {
 export function consumeSubmissionRateLimit() {
   return consumeRateLimit("feedback-submission", 15);
 }
-
-export function consumeDemoLoginRateLimit() {
-  return consumeRateLimit("demo-login", 30);
-}
