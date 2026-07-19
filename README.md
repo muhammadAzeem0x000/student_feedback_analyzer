@@ -45,7 +45,7 @@ Requirements: Node.js 22.3+ (Node 24 works), npm, a Supabase project, a Supabase
 1. Install packages with `npm install`.
 2. Copy `.env.example` to `.env.local`.
 3. Add the Supabase URL, publishable key, service-role key, and DeepSeek key.
-4. Apply all files in `supabase/migrations` in timestamp order. Codex can apply them through the Supabase MCP server; with the CLI use `supabase db push` after linking the project.
+4. Apply all files in `supabase/migrations` in timestamp order. With the Supabase CLI, link the project and run `supabase db push`.
 5. In Supabase Auth, keep Email/Password enabled. Create accounts manually or configure the two demo passwords and run `npm run seed:users`.
 6. Optionally run `supabase/seed.sql` after the demo instructor exists.
 7. Start the app with `npm run dev` and open `http://localhost:3000`.
