@@ -35,11 +35,11 @@ export function Navigation({ role, mobile = false }: { role: "instructor" | "adm
 
   if (mobile) return <nav aria-label="Mobile navigation" className="flex items-center gap-1">{nav.map(({ href, label, icon: Icon }) => {
     const active = isCurrent(pathname, href);
-    return <Link aria-label={label} aria-current={active ? "page" : undefined} key={href} href={href} className={cn("focus-ring relative grid size-10 place-items-center rounded-xl transition-colors", active ? "bg-[#e3f0eb] text-[#184f43]" : "text-[#65736e] hover:bg-[#f0f2ed]")}><Icon size={19}/><NavigationPending mobile/></Link>;
+    return <Link prefetch aria-label={label} aria-current={active ? "page" : undefined} key={href} href={href} className={cn("focus-ring relative grid size-10 place-items-center rounded-xl transition-colors", active ? "bg-[#e3f0eb] text-[#184f43]" : "text-[#65736e] hover:bg-[#f0f2ed]")}><Icon size={19}/><NavigationPending mobile/></Link>;
   })}</nav>;
 
   return <nav aria-label="Primary navigation" className="space-y-1 px-3">{nav.map(({ href, label, icon: Icon }) => {
     const active = isCurrent(pathname, href);
-    return <Link aria-current={active ? "page" : undefined} key={href} href={href} className={cn("focus-ring relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors", active ? "bg-[#e3f0eb] text-[#184f43]" : "text-[#5a6964] hover:bg-[#edf2ed] hover:text-[#184f43]")}>{active && <span aria-hidden="true" className="absolute -left-3 h-6 w-1 rounded-r-full bg-[#267865]"/>}<Icon size={18}/>{label}<NavigationPending/></Link>;
+    return <Link prefetch aria-current={active ? "page" : undefined} key={href} href={href} className={cn("focus-ring relative flex items-center gap-3 rounded-xl px-3 py-2.5 text-sm font-semibold transition-colors", active ? "bg-[#e3f0eb] text-[#184f43]" : "text-[#5a6964] hover:bg-[#edf2ed] hover:text-[#184f43]")}>{active && <span aria-hidden="true" className="absolute -left-3 h-6 w-1 rounded-r-full bg-[#267865]"/>}<Icon size={18}/>{label}<NavigationPending/></Link>;
   })}</nav>;
 }
